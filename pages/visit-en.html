@@ -1,4 +1,4 @@
-﻿<script>
+<script>
     var language = "EN",
         lang = "en";
 </script>
@@ -6,8 +6,8 @@
     .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {border-color: #d34a4a; background-color: #d34a4a}
 </style>
 <div class="text-center">
-    <h3 style="display: inline-block" ng-if="visitoraccess">Your Visit Results</h3>
-   <!-- &nbsp;<a href="" ng-click="loginup()">&lpar; <i class="fa fa-sign-in"></i> Login&rpar;</a>-->
+    <h3 style="display: inline-block" ng-if="visitoraccess">Required Visit</h3>
+    &nbsp;<a href="" ng-click="loginup()">&lpar; <i class="fa fa-sign-in"></i> Login&rpar;</a>
 </div><br>
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" ng-if="visitoraccess">
     <p ng-if="results.testResultVisits.length === 0">Nothing found</p>

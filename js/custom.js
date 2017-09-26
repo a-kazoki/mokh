@@ -1,7 +1,4 @@
-/*preloader fade after 1000*/
-$(document).ready(function(){
-    $("#preloader").fadeOut(3000);
-});
+
 
 /* smooth scroll */
     $(function() {
@@ -57,7 +54,7 @@ $("#owl-testi").owlCarousel
 jQuery(document).ready(function($) {  
 
 // site preloader -- also uncomment the div in the header and the css style for #preloader
-$(window).load(function(){
+$(document).ready(function(){
 	$('#preloader').fadeOut('slow',function(){$(this).remove();});
 });
 

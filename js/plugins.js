@@ -1,43 +1,33 @@
-/*global $, angular, FB, console, language, lang, oldurl, alert*/
+/*global $, angular, FB, console, language, lang, oldurl, alert, FormData*/
 // resApp js
 var resApp = angular.module("resApp", ["ngRoute", "ngCookies", "ngSanitize"]);
 
 //routes js
-resApp.config(["$routeProvider", "$locationProvider", function ($routeProvider, $locationProvider) {
+resApp.config(["$routeProvider", function ($routeProvider) {
     "use strict";
-    //location.hash="#/";
-
-    $locationProvider.hashPrefix('!');
-//    $locationProvider.html5Mode({
-//        enabled: true,
-//        rewriteLinks: false,
-//        requireBase: false
-//    });
     $routeProvider
         .when("/", {
-            templateUrl: "pages/patient-" + lang + ".html",
-            controller: "patientCtrl"
+            templateUrl : "pages/patient-" + lang + ".html",
+            controller : "patientCtrl"
         })
         .when("/patient", {
-            templateUrl: "pages/TestResult-" + lang + ".html",
-            controller: "resultCtrl",
-            authenticated: true
+            templateUrl : "pages/TestResult-" + lang + ".html",
+            controller : "resultCtrl",
+            authenticated : true
         })
         .when("/corp", {
-            templateUrl: "pages/TestResult-corp-" + lang + ".html",
-            controller: "corpCtrl",
-            authenticated: true
+            templateUrl : "pages/TestResult-corp-" + lang + ".html",
+            controller : "corpCtrl",
+            authenticated : true
         })
         .when("/visitor", {
-            templateUrl: "pages/visit-" + lang + ".html",
-            controller: "visitCtrl"
+            templateUrl : "pages/visit-" + lang + ".html",
+            controller : "visitCtrl"
         })
-        .otherwise({ //otherwise dont redirect but run a controller that checks url
-            templateUrl: "pages/patient-" + lang + ".html",
-            controller: "patientCtrl"
+        .otherwise({//otherwise dont redirect but run a controller that checks url
+            templateUrl : "pages/patient-" + lang + ".html",
+            controller : "patientCtrl"
         });
-
-
 }]);
 
 resApp.run(["$rootScope", "$location", "authFact", function ($rootScope, $location, authFact) {
@@ -55,37 +45,15 @@ resApp.run(["$rootScope", "$location", "authFact", function ($rootScope, $locati
 //generalCtrl js
 resApp.controller("generalCtrl", ["$scope", "$location", "$cookies", "$http", function ($scope, $location, $cookies, $http) {
     "use strict";
-    // packages list
-    var packageslist = JSON.stringify({
-        "count": "",
-        "pageIndex": "0",
-        "Category": "",
-        "lang": lang
-    });
-    $http({
-            method: "POST",
-            data: packageslist,
-            url: oldurl + "/PromotionList"
-        })
-        .then(function (response) {
-            console.log(response.data);
-            if (response.data.isSuccess) {
-                $scope.packages = response.data.promotions;
-            } else {
-                $scope.errorpackages = response.data.errorMessage;
-            }
-        }, function (reason) {
-            console.log(reason.data);
-        });
     // get test library
     var reqtests = JSON.stringify({
         "TestName": ""
     });
     $http({
-            method: "POST",
-            data: reqtests,
-            url: oldurl + "/TestLibrary"
-        })
+        method: "POST",
+        data: reqtests,
+        url: oldurl + "/TestLibrary"
+    })
         .then(function (response) {
             console.log(response.data);
             if (response.data.isSuccess) {
@@ -96,18 +64,38 @@ resApp.controller("generalCtrl", ["$scope", "$location", "$cookies", "$http", fu
         }, function (reason) {
             console.log(reason.data);
         });
-
+    // packages list
+    var packageslist = JSON.stringify({
+        "count" : "",
+        "pageIndex": "0",
+        "Category": ""
+    });
+    $http({
+        method: "POST",
+        data: packageslist,
+        url: oldurl + "/PromotionList"
+    })
+        .then(function (response) {
+            console.log(response.data);
+            if (response.data.isSuccess) {
+                $scope.packages = response.data.promotions;
+            } else {
+                $scope.errorpackages = response.data.errorMessage;
+            }
+        }, function (reason) {
+            console.log(reason.data);
+        });
     // health tips category
     var healthtipscat = JSON.stringify({
         "count": 1000,
         "pageIndex": "0",
-        "lang": lang
+        "lang" : lang
     });
     $http({
-            method: "POST",
-            data: healthtipscat,
-            url: oldurl + "/HealthTipsCategoryList"
-        })
+        method: "POST",
+        data: healthtipscat,
+        url: oldurl + "/HealthTipsCategoryList"
+    })
         .then(function (response) {
             console.log(response.data);
             if (response.data.isSuccess) {
@@ -124,13 +112,13 @@ resApp.controller("generalCtrl", ["$scope", "$location", "$cookies", "$http", fu
             "count": "100",
             "pageIndex": "0",
             "categoryId": x,
-            "lang": lang
+            "lang" : lang
         });
         $http({
-                method: "POST",
-                data: healthtipscatdet,
-                url: oldurl + "/HealthTipsList"
-            })
+            method: "POST",
+            data: healthtipscatdet,
+            url: oldurl + "/HealthTipsList"
+        })
             .then(function (response) {
                 console.log(response.data);
                 if (response.data.isSuccess) {
@@ -146,13 +134,13 @@ resApp.controller("generalCtrl", ["$scope", "$location", "$cookies", "$http", fu
     };
     // precautions
     var precautionsapi = JSON.stringify({
-        "lang": lang
+        "lang" : lang
     });
     $http({
-            method: "POST",
-            data: precautionsapi,
-            url: oldurl + "/GetPrecautions"
-        })
+        method: "POST",
+        data: precautionsapi,
+        url: oldurl + "/GetPrecautions"
+    })
         .then(function (response) {
             console.log(response.data);
             if (response.data.isSuccess) {
@@ -163,71 +151,52 @@ resApp.controller("generalCtrl", ["$scope", "$location", "$cookies", "$http", fu
         }, function (reason) {
             console.log(reason.data);
         });
-    $scope.checkboxModel = {
-       value1 : '0',
-       value2 : '0',
-       value3 : '0',
-       value4 : '0',
-       value5 : '0'
-     };
     // house visit booking
+    /*$scope.bookvisit = function () {
+        var data = JSON.stringify({
+            "Body" : "Name: " + $scope.visitname + "<br>Email: " + $scope.visitemail + "<br>mobile: " + $scope.visitmobno + "<br>Time: " + $scope.visittime,
+            "Subject" : "House Visit Through Website",
+            "TO" : "m.housevisit@almokhtabar.com"
+        });
+        $scope.visitname = "";
+        $scope.visitemail = "";
+        $scope.visitmobno = "";
+        $scope.visittime = "";
+        $http({
+            method: "POST",
+            url: "http://yakensolution.cloudapp.net/SendEmail/Api/SendMail/SendMail",
+            data: data
+        })
+            .then(function (response) {
+                alert('Thank you for booking a visit. شكرا لحجزكم زيارة منزلية');
+            });
+    };*/
     $scope.bookvisit = function () {
         var formData = new FormData();
         formData.append("address", $scope.visitemail);
         formData.append('mobileNumber', $scope.visitmobno);
         formData.append('patientName', $scope.visitname);
         formData.append('visitTime', $scope.visittime);
-        var srource="<br/>";
-        if($scope.checkboxModel.value1!='0')
-            srource+=$scope.checkboxModel.value1+", ";
-        if($scope.checkboxModel.value2!='0')
-            srource+=$scope.checkboxModel.value2+", ";
-        if($scope.checkboxModel.value3!='0')
-            srource+=$scope.checkboxModel.value3+", ";
-        if($scope.checkboxModel.value4!='0')
-            srource+=$scope.checkboxModel.value4+", ";
-        if($scope.checkboxModel.value5!='0')
-            srource+=$scope.checkboxModel.value5+", ";
-        formData.append('GEO', srource);
 
-        if ($scope.visitname == "" || typeof $scope.visitname == "undefined") {
-            alert('please add your name');
-        } else if ($scope.visitmobno == "" || typeof $scope.visitmobno == "undefined") {
-            alert('please add mobile number');
-        } else if ($scope.visitemail == "" || typeof $scope.visitemail == "undefined") {
-            alert('please add your adress');
-        } else if ($scope.visittime == "" || typeof $scope.visittime == "undefined") {
-            alert('please add visit time');
-        } else {
-            var xhr = new XMLHttpRequest();
-            xhr.addEventListener("readystatechange", function () {
-                if (this.readyState === 4) {
-                    console.log(this.responseText);
-                    if (this.readyState === 4 && this.responseText) {
-                        console.log("Request sent");
-                        alert('Thank you for booking a visit. شكرا لحجزكم زيارة منزلية');
-                    } else {
-                        console.log("request error");
-                    }
+        var xhr = new XMLHttpRequest();
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === 4) {
+                console.log(this.responseText);
+                if (this.readyState === 4 && this.responseText) {
+                    console.log("Request sent");
+                    alert('Thank you for booking a visit. شكرا لحجزكم زيارة منزلية');
+                } else {
+                    console.log("request error");
                 }
-            });
-            xhr.open("POST", oldurl + "/HomeVisitReserve");
-            xhr.send(formData);
-            $scope.visitname = "";
-            $scope.visitemail = "";
-            $scope.visitmobno = "";
-            $scope.visittime = "";
-            $scope.checkboxModel = {
-                            value1 : '0',
-                            value2 : '0',
-                            value3 : '0',
-                            value4 : '0',
-                            value5 : '0'
-                                    };
-        }
-
+            }
+        });
+        xhr.open("POST", oldurl + "/HomeVisitReserve");
+        xhr.send(formData);
+        $scope.visitname = "";
+        $scope.visitemail = "";
+        $scope.visitmobno = "";
+        $scope.visittime = "";
     };
-
 }]);
 
 //visitCtrl js
@@ -254,10 +223,10 @@ resApp.controller("visitCtrl", ["$scope", "authFact", "$location", "$cookies", "
         "pageIndex": "0"
     });
     $http({
-            method: "POST",
-            url: oldurl + "/TestResultList",
-            data: results
-        })
+        method: "POST",
+        url: oldurl + "/TestResultList",
+        data: results
+    })
         .then(function (response) {
             if (response.data.isSuccess) {
                 $scope.results = response.data;
@@ -293,12 +262,10 @@ resApp.controller("patientCtrl", ["$scope", "authFact", "$location", "$cookies",
         console.log(locationurl.slice((locationurl.indexOf("&VstCode=") + 9)));
         //verify user
         $http({
-                method: "POST",
-                url: oldurl + "/VerifyWebLogin",
-                data: JSON.stringify({
-                    "UserCode": locationurl.slice((locationurl.indexOf("V2/?V=") + 6), locationurl.indexOf("&VstCode="))
-                })
-            })
+            method: "POST",
+            url: oldurl + "/VerifyWebLogin",
+            data: JSON.stringify({"UserCode": locationurl.slice((locationurl.indexOf("V2/?V=") + 6), locationurl.indexOf("&VstCode="))})
+        })
             .then(function (response) {
                 if (response.data.isSuccess) {
                     $scope.visitdirest = response.data;
@@ -311,7 +278,7 @@ resApp.controller("patientCtrl", ["$scope", "authFact", "$location", "$cookies",
                     $('#errormodal').modal("show");
                 }
             });
-
+        
     }
     //forget password
     $scope.forgetpass = function () {
@@ -319,10 +286,10 @@ resApp.controller("patientCtrl", ["$scope", "authFact", "$location", "$cookies",
             "Email": $scope.forgetemail
         });
         $http({
-                method: "POST",
-                url: oldurl + "/ForgetPassword",
-                data: forgetdata
-            })
+            method: "POST",
+            url: oldurl + "/ForgetPassword",
+            data: forgetdata
+        })
             .then(function (response) {
                 if (response.data.isSuccess) {
                     $('#forgetmodal').modal("hide");
@@ -345,10 +312,10 @@ resApp.controller("patientCtrl", ["$scope", "authFact", "$location", "$cookies",
             "resetId": $scope.reforgetcode
         });
         $http({
-                method: "POST",
-                url: oldurl + "/ResetPassword",
-                data: reforgetdata
-            })
+            method: "POST",
+            url: oldurl + "/ResetPassword",
+            data: reforgetdata
+        })
             .then(function (response) {
                 if (response.data.isSuccess) {
                     $('#resetpasswordmodal').modal("hide");
@@ -374,10 +341,10 @@ resApp.controller("patientCtrl", ["$scope", "authFact", "$location", "$cookies",
             "address": $scope.regaddress
         });
         $http({
-                method: "POST",
-                url: oldurl + "/Registeration",
-                data: registerdata
-            })
+            method: "POST",
+            url: oldurl + "/Registeration",
+            data: registerdata
+        })
             .then(function (response) {
                 if (response.data.isSuccess) {
                     console.log("true");
@@ -398,10 +365,10 @@ resApp.controller("patientCtrl", ["$scope", "authFact", "$location", "$cookies",
             "password": $scope.upass
         });
         $http({
-                method: "POST",
-                url: oldurl + "/Login",
-                data: logindata
-            })
+            method: "POST",
+            url: oldurl + "/Login",
+            data: logindata
+        })
             .then(function (response) {
                 $scope.upreply = response.data;
                 console.log(response.data);
@@ -439,13 +406,13 @@ resApp.controller("resultCtrl", ["$scope", "authFact", "$location", "$cookies", 
     console.log($scope.udetails);
     //get points
     var points = JSON.stringify({
-        "UserID": $cookies.get("accessToken")
+        "UserID" : $cookies.get("accessToken")
     });
     $http({
-            method: "POST",
-            url: oldurl + "/GetPatientPoints",
-            data: points
-        })
+        method: "POST",
+        url: oldurl + "/GetPatientPoints",
+        data: points
+    })
         .then(function (response) {
             if (response.data.isSuccess) {
                 $scope.points = response.data;
@@ -466,10 +433,10 @@ resApp.controller("resultCtrl", ["$scope", "authFact", "$location", "$cookies", 
         "pageIndex": "0"
     });
     $http({
-            method: "POST",
-            url: oldurl + "/TestResultList",
-            data: results
-        })
+        method: "POST",
+        url: oldurl + "/TestResultList",
+        data: results
+    })
         .then(function (response) {
             if (response.data.isSuccess) {
                 $scope.results = response.data;
@@ -485,16 +452,16 @@ resApp.controller("resultCtrl", ["$scope", "authFact", "$location", "$cookies", 
     //edit profile
     $scope.editprofile = function () {
         var newprofile = JSON.stringify({
-            "UserID": $scope.udetails.id,
-            "Email": $scope.editemail,
-            "MobileNumber": $scope.editmob,
-            "UserName": $scope.editusername
+            "UserID" : $scope.udetails.id,
+            "Email" : $scope.editemail,
+            "MobileNumber" : $scope.editmob,
+            "UserName" : $scope.editusername
         });
         $http({
-                method: "POST",
-                url: oldurl + "/UpdateProfileRegisteredData",
-                data: newprofile
-            })
+            method: "POST",
+            url: oldurl + "/UpdateProfileRegisteredData",
+            data: newprofile
+        })
             .then(function (response) {
                 if (response.data.isSuccess) {
                     $scope.editemail = "";
@@ -514,15 +481,15 @@ resApp.controller("resultCtrl", ["$scope", "authFact", "$location", "$cookies", 
     //edit password
     $scope.editpassword = function () {
         var newpass = JSON.stringify({
-            "UserID": $scope.udetails.id,
-            "CurrentPassword": $scope.editpassold,
-            "NewPassword": $scope.editpassnew
+            "UserID" : $scope.udetails.id,
+            "CurrentPassword" : $scope.editpassold,
+            "NewPassword" : $scope.editpassnew
         });
         $http({
-                method: "POST",
-                url: oldurl + "/UpdatePassword",
-                data: newpass
-            })
+            method: "POST",
+            url: oldurl + "/UpdatePassword",
+            data: newpass
+        })
             .then(function (response) {
                 if (response.data.isSuccess) {
                     $scope.editpassold = "";
@@ -540,14 +507,14 @@ resApp.controller("resultCtrl", ["$scope", "authFact", "$location", "$cookies", 
     };
     //Get Diabetes
     var GetDiabetes = JSON.stringify({
-        "UserID": $cookies.get("accessToken"),
-        "lang": lang
+        "UserID" : $cookies.get("accessToken"),
+        "lang" : lang
     });
     $http({
-            method: "POST",
-            url: oldurl + "/GetDiabetesList",
-            data: GetDiabetes
-        })
+        method: "POST",
+        url: oldurl + "/GetDiabetesList",
+        data: GetDiabetes
+    })
         .then(function (response) {
             if (response.data.isSuccess) {
                 $scope.diabetes = response.data.DiabetesList;
@@ -561,27 +528,22 @@ resApp.controller("resultCtrl", ["$scope", "authFact", "$location", "$cookies", 
     //set diabetes
     $scope.setDiabetes = function () {
         var list = [];
-        for (var i = 0; i < $scope.diabetes.length; i++) {
-            if ($scope.diabetes[i].IsSelected) list.push($scope.diabetes[i]);
+        for (var i = 0; i<$scope.diabetes.length;i++){
+            if($scope.diabetes[i].IsSelected) list.push($scope.diabetes[i]);
         }
         $http({
-            method: 'POST',
-            url: oldurl + '/SetUserDiabetes',
-            data: JSON.stringify({
-                "UserID": $cookies.get('accessToken'),
-                "DiabetesList": list
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
+         method: 'POST',
+         url: oldurl + '/SetUserDiabetes',
+         data: JSON.stringify({"UserID":$cookies.get('accessToken'), "DiabetesList":list}),
+         headers: {'Content-Type': 'application/json'}
         })
     };
     //send message email
     $scope.sendmail = function () {
         var data = JSON.stringify({
-            "Body": "Patient name: " + $scope.messagename + "<br>issue related to: " + $scope.messagerelated + "<br>message: " + $scope.messagemsg + "<br>Contact number: " + $scope.messageno,
-            "Subject": "Message from webresults",
-            "TO": "info@almokhtabar.com"
+            "Body" : "Patient name: " + $scope.messagename + "<br>issue related to: " + $scope.messagerelated + "<br>message: " + $scope.messagemsg + "<br>Contact number: " + $scope.messageno,
+            "Subject" : "Message from webresults",
+            "TO" : "info@almokhtabar.com"
         });
         $http({
             method: "POST",
@@ -615,10 +577,10 @@ resApp.controller("corpCtrl", ["$scope", "authFact", "$location", "$cookies", "$
             "VstCode": $scope.visitnum
         });
         $http({
-                method: "POST",
-                url: oldurl + "/CorporateDetailsList",
-                data: searchvstno
-            })
+            method: "POST",
+            url: oldurl + "/CorporateDetailsList",
+            data: searchvstno
+        })
             .then(function (response) {
                 if (response.data.isSuccess) {
                     $scope.corpresult = response.data.corporateEmpsList;
@@ -635,7 +597,7 @@ resApp.controller("corpCtrl", ["$scope", "authFact", "$location", "$cookies", "$
     };
     //search by date
     $scope.searchvisitdate = function () {
-        var fromdate = JSON.stringify($scope.startdate).substr(1, 4) + JSON.stringify($scope.startdate).substr(6, 2) + JSON.stringify($scope.startdate).substr(9, 2),
+        var fromdate = JSON.stringify($scope.startdate).substr(1, 4) + JSON.stringify($scope.startdate).substr(6, 2) +                           JSON.stringify($scope.startdate).substr(9, 2),
             todate = JSON.stringify($scope.enddate).substr(1, 4) + JSON.stringify($scope.enddate).substr(6, 2) + JSON.stringify($scope.enddate).substr(9, 2),
             searchvstdate = JSON.stringify({
                 "ID": $cookies.get("accessToken"),
@@ -643,10 +605,10 @@ resApp.controller("corpCtrl", ["$scope", "authFact", "$location", "$cookies", "$
                 "ToDate": todate
             });
         $http({
-                method: "POST",
-                url: oldurl + "/CorporateDetailsList",
-                data: searchvstdate
-            })
+            method: "POST",
+            url: oldurl + "/CorporateDetailsList",
+            data: searchvstdate
+        })
             .then(function (response) {
                 if (response.data.isSuccess) {
                     $scope.corpresult = response.data.corporateEmpsList;
@@ -668,10 +630,10 @@ resApp.controller("corpCtrl", ["$scope", "authFact", "$location", "$cookies", "$
             "PermNo": y
         });
         $http({
-                method: "POST",
-                url: oldurl + "/CorporateTestResult",
-                data: selectedvisit
-            })
+            method: "POST",
+            url: oldurl + "/CorporateTestResult",
+            data: selectedvisit
+        })
             .then(function (response) {
                 if (response.data.isSuccess) {
                     $scope.corpresultdet = response.data.testResultVisits;
