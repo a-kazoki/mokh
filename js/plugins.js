@@ -8,11 +8,11 @@ resApp.config(["$routeProvider", "$locationProvider", function ($routeProvider, 
     //location.hash="#/";
 
     $locationProvider.hashPrefix('!');
-    $locationProvider.html5Mode({
-        enabled: true,
-        rewriteLinks: false,
-        requireBase: false
-    });
+//    $locationProvider.html5Mode({
+//        enabled: true,
+//        rewriteLinks: false,
+//        requireBase: false
+//    });
     $routeProvider
         .when("/", {
             templateUrl: "pages/patient-" + lang + ".html",
