@@ -597,8 +597,8 @@ resApp.controller("corpCtrl", ["$scope", "authFact", "$location", "$cookies", "$
     };
     //search by date
     $scope.searchvisitdate = function () {
-        var fromdate = JSON.stringify($scope.startdate).substr(1, 4) + JSON.stringify($scope.startdate).substr(6, 2) +                           JSON.stringify($scope.startdate).substr(9, 2),
-            todate = JSON.stringify($scope.enddate).substr(1, 4) + JSON.stringify($scope.enddate).substr(6, 2) + JSON.stringify($scope.enddate).substr(9, 2),
+        var fromdate = JSON.stringify($scope.startdate),
+            todate = JSON.stringify($scope.enddate),
             searchvstdate = JSON.stringify({
                 "ID": $cookies.get("accessToken"),
                 "FromDate": fromdate,
