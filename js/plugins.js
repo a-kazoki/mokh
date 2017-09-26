@@ -604,6 +604,7 @@ resApp.controller("corpCtrl", ["$scope", "authFact", "$location", "$cookies", "$
                 "FromDate": fromdate,
                 "ToDate": todate
             });
+            console.log(searchvstdate);
         $http({
             method: "POST",
             url: oldurl + "/CorporateDetailsList",
