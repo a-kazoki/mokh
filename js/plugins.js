@@ -601,8 +601,8 @@ resApp.controller("corpCtrl", ["$scope", "authFact", "$location", "$cookies", "$
             todate = JSON.stringify($scope.enddate),
             searchvstdate = JSON.stringify({
                 "ID": $cookies.get("accessToken"),
-                "FromDate": fromdate,
-                "ToDate": todate
+                "FromDate": $scope.startdate,
+                "ToDate": $scope.enddate
             });
             console.log(searchvstdate);
         $http({
