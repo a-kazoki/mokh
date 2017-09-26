@@ -1,0 +1,44 @@
+<script>
+    var language = "EN",
+        lang = "en";
+</script>
+<style>
+    .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {border-color: #d34a4a; background-color: #d34a4a}
+</style>
+<div class="text-center">
+    <h3 style="display: inline-block" ng-if="visitoraccess">Required Visit</h3>
+    &nbsp;<a href="" ng-click="loginup()">&lpar; <i class="fa fa-sign-in"></i> Login&rpar;</a>
+</div><br>
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" ng-if="visitoraccess">
+    <p ng-if="results.testResultVisits.length === 0">Nothing found</p>
+    <div class="panel panel-default" ng-repeat="visit in results.testResultVisits">
+        <div class="panel-heading" role="tab" id="headingOne" ng-if="visit.VisitNumber === visitreq">
+            <div class="panel-body">
+                <p ng-if="visit.testResults.length === 0">Nothing found</p>
+                <div ng-repeat="test in visit.testResults">
+                    <ul>
+                        <li>{{test.Name}} <a href="{{test.ResultFile}}" target="_blank" style="float: initial">&lpar; Open <i class="fa fa-file-pdf-o"></i> &rpar;</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-if="!visitoraccess"><div class="button-demo ">
+        If you’re like the rest of us, where you don’t have much time on your hands to come to one of our branches and pick up your test results...
+        <span style="color: #d34a4a;"> you must login first</span>&nbsp;<a href="" ng-click="loginup()">&lpar; <i class="fa fa-sign-in"></i> Login&rpar;</a>
+    </div></div>
+<!-- error modal -->
+<div class="modal fade" id="errormodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Sorry Error Occurred</h4>
+            </div>
+            <div class="modal-body">
+                {{ErrorMSG}}
+            </div>
+        </div>
+    </div>
+</div>

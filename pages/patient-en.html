@@ -1,0 +1,149 @@
+<script>
+    var language = "EN",
+        lang = "en";
+</script>
+<div class="col-sm-7">
+    <h3>Test Results</h3>
+    <div class="button-demo ">
+        If you’re like the rest of us, where you don’t have much time on your hands to come to one of our branches and pick up your test results...
+        <span style="color: #d34a4a;"> you must login first</span>
+    </div>				
+</div>
+<div class="col-sm-5">
+    <h3>LOGIN FORM</h3>
+    <form class="form-header">
+        <div class="form-group">
+            <input class="form-control input-lg" name="MERGE1" id="email" type="text" placeholder="Email address or Username" ng-model="uname" required>
+        </div>
+        <div class="form-group">
+            <input class="form-control input-lg" name="MERGE0" id="pass" type="password" placeholder="Password" ng-model="upass" required>
+        </div>
+        <div class="form-group last">
+            <input type="submit" class="btn btn-warning btn-block btn-lg" value="LOG IN" ng-click="login()">
+        </div>
+        <p class="privacy text-center">If you Forget your password you can reset by <a href="" data-toggle="modal" data-target="#forgetmodal" style="color: #d34a4a;">Forget password?</a>.</p>
+        <p class="privacy text-center">If you don't have an account <a href="" data-toggle="modal" data-target="#regmodal" style="color: #d34a4a;">Register now</a>.</p>
+        
+        
+        
+    </form>		
+</div>
+
+<!-- registration modal -->
+<div class="modal fade" id="regmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <form class="form-header">
+                    <h3 class="text-center">Registration</h3>
+                    <br>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="name" ng-model="regname" required>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="email" placeholder="email" ng-model="regemail" required>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Adddress" ng-model="regaddress" required>
+                        </div>
+                        <div class="form-group">
+                            <select ng-model="regdoctor">
+                                <option value="" disabled selected>Account type</option>
+                                <option value="1">Doctor</option>
+                                <option value="0">Patient</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input class="form-control" type="pass" placeholder="password" ng-model="regpass" required>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="pass" placeholder="re-password" ng-model="regrepass" required>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="phone number" ng-model="regno" required>
+                        </div>
+                        <select ng-model="reggender">
+                            <option value="" disabled selected>Male or Female</option>
+                            <option value="true">Male</option>
+                            <option value="false">Female</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group last">
+                            <input type="submit" class="btn btn-warning btn-block" value="Register" ng-click="regester()">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- forgetpass modal -->
+<div class="modal fade" id="forgetmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Forget password</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-header">
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Email Address" ng-model="forgetemail" required>
+                    </div>
+                     <div class="form-group last">
+                        <input type="submit" class="btn btn-warning btn-block" value="Send Code" ng-click="forgetpass()">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- resetpassword modal -->
+<div class="modal fade" id="resetpasswordmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Reset forgotten password</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-header">
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Email Address" ng-model="reforgetemail" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="New password" ng-model="repassword" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Reset code sent to your Email" ng-model="reforgetcode" required>
+                    </div>
+                     <div class="form-group last">
+                        <input type="submit" class="btn btn-warning btn-block" value="Send Code" ng-click="reforgetpass()">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- error modal -->
+<div class="modal fade" id="errormodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Sorry Error Occurred</h4>
+            </div>
+            <div class="modal-body">
+                {{ErrorMSG}}
+            </div>
+        </div>
+    </div>
+</div>

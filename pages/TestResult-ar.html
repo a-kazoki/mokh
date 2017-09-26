@@ -1,0 +1,212 @@
+<script>
+    var language = "AR",
+        lang = "ar";
+</script>
+<style>
+    .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {border-color: #d34a4a; background-color: #d34a4a}
+</style>
+<div class="text-center">
+    <h3 style="display: inline-block">نتائج التحاليل</h3>
+    &nbsp;
+    <a href="" ng-click="logout()">&lpar; <i class="fa fa-sign-out"></i> الخروج&rpar;</a>
+</div><br>
+        <div class="bhoechie-tab-container">
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 bhoechie-tab-menu">
+
+              <ul class="nav list-group" role="tablist">
+                  
+                  <li role="presentation" class="list-group-item active text-center"><a href="" data-target="#Profile" aria-controls="Profile" role="tab" data-toggle="tab" style="color: #000"><h4 class="fa fa-user"></h4><br/>الملف الشخصي</a></li>
+                  
+                  <li role="presentation" class="list-group-item text-center"><a href="" data-target="#Results" aria-controls="Results" role="tab" data-toggle="tab" style="color: #000"><h4 class="fa fa-flask"></h4><br/>النتائج</a></li>
+                  
+                  <li role="presentation" class="list-group-item text-center"><a href="" data-target="#History" aria-controls="History" role="tab" data-toggle="tab" style="color: #000"><h4 class="fa fa-user"></h4><br/>التاريخ الطبي</a></li>
+                  
+                  <li role="presentation" class="list-group-item text-center"><a href="" data-target="#Contact" aria-controls="Contact" role="tab" data-toggle="tab" style="color: #000"><h4 class="fa fa-user"></h4><br/>تواصل معنا</a></li>
+                  
+              </ul>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 tab-content">
+                <!-- flight section -->
+                <div  role="tabpanel" class="tab-pane fade in active" id="Profile">
+                    <div class="row">
+                        <div class="col-xs-12 ">
+
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12">
+                                        <div class="col-xs-6 profile">
+                                            <h4>{{udetails.fullName}}</h4>
+                                            <small class="text-center">العنوان <i class="glyphicon glyphicon-map-marker">
+                                            </i>: {{udetails.Location}}</small>
+                                            <p>
+                                                <i class="glyphicon glyphicon-envelope"></i>:  <span>{{udetails.Email}}</span> 
+                                                <br/>
+                                                <i class="glyphicon glyphicon-gift"></i> <span>{{udetails.DOB}}</span>
+                                                <br/>
+                                                <!--<div><i class="fa fa-female" aria-hidden="true"></i> <span>Female</span></div>
+                                                <div><i class="fa fa-male" aria-hidden="true"></i> <span>Male</span></div>-->
+                                            </p>
+                                        </div>
+                                        <!-- Split button -->
+                                        <div class=" linksProfile col-xs-6 pull-left">
+                                            <a href="" data-toggle="modal" data-target="#editprofile"> <i class="fa fa-pencil"></i> تعديل </a>
+                                        </div>
+                                        <div class="table-responsive col-xs-12">
+                                                <table class="table table-bordered">
+                                                   <thead>
+                                                        <tr>
+                                                            <th scope="row"> الرقم التعريفي : {{udetails.PermNo}}</th>
+                                                            <th><span class="Scolor">{{points.RPaidAmt}}</span> النقاط المستخدمة</th>
+                                                            <th><span class="Scolor">{{points.RBalAmt}}</span> النقاط المتبقية</th>
+                                                            <th><span class="Scolor">{{points.RAmount}}</span> مجموع النقاط</th>
+                                                        </tr>
+                                                   </thead>					    	
+                                                </table>
+                                            </div>
+                                    </div>
+                                </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- train section -->
+                <div role="tabpanel" class="tab-pane fade" id="Results">
+                      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <p ng-if="results.testResultVisits.length === 0">لم نجد شيئ</p>
+                        <div class="panel panel-default" ng-repeat="visit in results.testResultVisits">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{visit.VisitNumber}}" aria-expanded="true" aria-controls="collapseOne">
+                                    {{visit.VisitNumber}}
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse{{visit.VisitNumber}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="panel-body">
+                                    <p ng-if="visit.testResults.length === 0">لم نجد شيئ</p>
+                                    <div ng-repeat="test in visit.testResults">
+                                        <ul>
+                                            <li>{{test.Name}} <a href="{{test.ResultFile}}" target="_blank" style="float: initial">&lpar; افتح <i class="fa fa-file-pdf-o"></i> &rpar;</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- hotel search -->
+                <div role="tabpanel" class="tab-pane fade" id="History">
+                   <h3>قائمة التاريخ الطبي</h3>
+                    <div class="col-md-4 col-xs-12  Fcol">
+						<div class="checkbox" ng-repeat="d in diabetes">
+                            <label>{{d.Name}}</label>
+							<input type="checkbox" ng-model="d.IsSelected" onclick="document.getElementById('setbtn').removeAttribute('disabled')">
+						</div>
+					</div>
+					 <button class="btn btn-danger pull-right btn-lg" id="setbtn" ng-click="setDiabetes()" disabled>حفظ</button>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="Contact">
+                  
+                    <div class="col-xs-8 col-xs-offset-2">
+                    <form class="form-header">
+					<div class="form-group">
+						<input class="form-control input-lg" type="text" ng-model="messagename" placeholder="الاسم" required>
+					</div>
+                    <div class="form-group">
+						<input class="form-control input-lg" type="text" ng-model="messageno" placeholder="رقم الهاتف" required>
+					</div>
+					<div class="form-group">
+						<select class="form-control" id="exampleSelect1" ng-model="messagerelated">
+							<option ng-value="" disabled>مشكلة متعلقة ب:</option>
+							<option ng-value="Test_Result_Data">نتائج التحاليل</option>
+							<option ng-value="Test_Price">اسعار التحاليل</option>
+							<option ng-value="Test_Precautions">احتياطات التحاليل</option>
+							<option ng-value="Test_Pre_Appointment">مواعيد التحاليل</option>
+							<option ng-value="New_Contract_Request/Subscription">عقد جديد</option>
+							<option ng-value="Lab_Working_Hours_and_Branch_Addresses">مواعيد عمل الفروع و مواقعها</option>
+							<option ng-value="Medical_Inquires_and_results_details">استفسار طبي و نتائج التحاليل</option>
+							<option ng-value="Medical_Provider_Contract_Conditions">شروط العقود الطبية</option>
+							<option ng-value="Other">اخرى</option>
+						</select>
+					</div>
+					<div class="form-group">
+					<textarea name="Message" rows="20" cols="20" id="Message" ng-model="messagemsg" class="form-control input-message"  placeholder="الرسالة" required></textarea>
+					</div>
+					<div class="form-group last">
+						<input type="submit" class="btn btn-warning btn-block btn-lg" value="ارسال" ng-click="sendmail()">
+					</div>
+				</form>	
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!-- editprofile modal -->
+<div class="modal fade" id="editprofile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">تعديل بيانات الحساب</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="" data-target="#general" aria-controls="general" role="tab" data-toggle="tab">البيانات الشخصية</a></li>
+                        <li role="presentation"><a href="" data-target="#password" aria-controls="password" role="tab" data-toggle="tab">كلمة السر</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="general">
+                            <form class="form-header">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" placeholder="البريد الالكتروني" ng-model="editemail" required>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" placeholder="رقم الهاتف" ng-model="editmob" required>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" placeholder="اسم المستخدم" ng-model="editusername" required>
+                                </div>
+                                 <div class="form-group last">
+                                    <input type="submit" class="btn btn-warning btn-block" value="ارسال" ng-click="editprofile()">
+                                </div>
+                            </form>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="password">
+                            <form class="form-header">
+                                <div class="form-group">
+                                    <input class="form-control" type="password" placeholder="كلمة السر الحالية" ng-model="editpassold" required>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="password" placeholder="كلمة السر الجديدة" ng-model="editpassnew" required>
+                                </div>
+                                 <div class="form-group last">
+                                    <input type="submit" class="btn btn-warning btn-block" value="ارسال" ng-click="editpassword()">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<!-- error modal -->
+<div class="modal fade" id="errormodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">عفوا لقد حدث خطأ</h4>
+            </div>
+            <div class="modal-body">
+                {{ErrorMSG}}
+            </div>
+        </div>
+    </div>
+</div>

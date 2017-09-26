@@ -1,0 +1,147 @@
+<script>
+    var language = "AR",
+        lang = "ar";
+</script>
+<div class="col-sm-7">
+    <h3>نتائج التحاليل</h3>
+    <div class="button-demo ">
+        اذا كنت لا تملك الوقت لزيارت احد فروعنا للحصول على نتائجك
+        <span style="color: #d34a4a;"> يجب ان تدخل على حسابك اولاً</span>
+    </div>				
+</div>
+<div class="col-sm-5">
+    <h3>الدخول على الحساب</h3>
+    <form class="form-header">
+        <div class="form-group">
+            <input class="form-control input-lg" name="MERGE1" id="email" type="text" placeholder="اسم المستخدم او البريد الاليكتروني" ng-model="uname" required>
+        </div>
+        <div class="form-group">
+            <input class="form-control input-lg" name="MERGE0" id="pass" type="password" placeholder="كلمة السر" ng-model="upass" required>
+        </div>
+        <div class="form-group last">
+            <input type="submit" class="btn btn-warning btn-block btn-lg" value="الدخول" ng-click="login()">
+        </div>
+        <p class="privacy text-center">اذا كنت قد نسيت كلمة السر يمكنك استرجاعها من <a href="" data-toggle="modal" data-target="#forgetmodal" style="color: #d34a4a;">نسيت كلمة السر؟</a>.</p>
+        <p class="privacy text-center">اذا كنت لا تملك حساب   <a href="" data-toggle="modal" data-target="#regmodal" style="color: #d34a4a;">سجل من هنا</a>.</p>
+    </form>	
+</div>
+
+<!-- registration modal -->
+<div class="modal fade" id="regmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <form class="form-header">
+                    <h3 class="text-center">التسجيل</h3>
+                    <br>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="الاسم" ng-model="regname" required>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="email" placeholder="البريد الالكتروني" ng-model="regemail" required>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="العنوان" ng-model="regaddress" required>
+                        </div>
+                        <div class="form-group">
+                            <select ng-model="regdoctor">
+                                <option value="" disabled selected>نوع الحساب</option>
+                                <option value="1">طبيب</option>
+                                <option value="0">مريض</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input class="form-control" type="pass" placeholder="كلمة السر" ng-model="regpass" required>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="pass" placeholder="اعادة كلمة السر" ng-model="regrepass" required>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="رقم الهاتف" ng-model="regno" required>
+                        </div>
+                        <select ng-model="reggender">
+                            <option value="" disabled selected>ذكر ام انثى</option>
+                            <option value="true">ذكر</option>
+                            <option value="false">انثى</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group last">
+                            <input type="submit" class="btn btn-warning btn-block" value="سجل" ng-click="regester()">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- forgetpass modal -->
+<div class="modal fade" id="forgetmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">نسيت كلمة السر</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-header">
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="البريد الالكتروني" ng-model="forgetemail" required>
+                    </div>
+                     <div class="form-group last">
+                        <input type="submit" class="btn btn-warning btn-block" value="ارسل الكود" ng-click="forgetpass()">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- resetpassword modal -->
+<div class="modal fade" id="resetpasswordmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">اعد ظبط كلمة السر</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-header">
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="البريد الالكتروني" ng-model="reforgetemail" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="كلمة السر الجديدة" ng-model="repassword" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="الكود المرسل على البريد الالكتروني" ng-model="reforgetcode" required>
+                    </div>
+                     <div class="form-group last">
+                        <input type="submit" class="btn btn-warning btn-block" value="ارسل الكود" ng-click="reforgetpass()">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- error modal -->
+<div class="modal fade" id="errormodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">عفوا هناك خطا</h4>
+            </div>
+            <div class="modal-body">
+                {{ErrorMSG}}
+            </div>
+        </div>
+    </div>
+</div>
+<section ng-controller="generalCtrl">
